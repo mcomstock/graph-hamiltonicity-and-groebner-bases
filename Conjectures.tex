@@ -1,0 +1,59 @@
+\documentclass[letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+% Theorem package information
+\newtheorem{lemma}{Lemma}
+\newtheorem{conjecture}{Conjecture}
+
+\newcommand{\aln}[1]{\begin{align*} #1 \end{align*}} %fast align
+
+\title{Conjectures}
+\author{Max Comstock}
+\date{Summer 2014}
+
+\begin{document}
+
+\maketitle
+
+\begin{lemma}
+	For a graph $G$ with $n$ vertices and one or more Hamiltonian cycles, we find $x_n^n - 1$ is in the reduced Gr\"obner basis of $H_G$. Furthermore, this is the only polynomial in the reduced Gr\"obner basis that contains $x_n$ and no other variables.
+\end{lemma}
+
+\emph{Proof.} We will use induction on the number of Hamiltonian cycles of the graph. For the base case, consider a graph with a single Hamiltonian cycle. Let $G_1$ be such a graph with vertex set $\{v_1, \ldots, v_n\}$, and $\omega$ be an $n$-th root of unity. Lemma 3.3 and Theorem 3.9 in De Loera, Hillar, Malkin, Omar tells us that the graph ideal of $G_1$ has a reduced Gr\"obner basis of the form
+\aln{
+	H_{G_1} = \langle g_1, \ldots, g_n \rangle,
+}
+where
+\aln{
+	g_i = \left \{ \begin{array}{ll} x_{v_{n-i}} - \omega^{n-i} x_{v_n} & i = 1,\ldots,n-1\\
+		x_{v_n}^n - 1 & i = n \end{array} \right .
+}
+Next, consider the graph $G_i$ with $i$ Hamiltonian cycles. From Theorem 3.9, we know
+\aln{
+	H_{G_i} = H_{G_i, C_1} \cap \cdots \cap H_{G_i, C_i}.
+}
+Suppose that our hypothesis holds for $H_{G_i, C_1} \cap \cdots \cap H_{G_i, C_{i-1}}$. Then, by the Elimination Theorem, $(H_{G_i, C_1} \cap \cdots \cap H_{G_i, C_{i-1}}) \cap \mathbb{K}[x_n] = \langle x_n^n - 1 \rangle$. Then we find
+\aln{
+	H_{G_i} \cap \mathbb{K}[x_n] &= (H_{G_i, C_1} \cap \cdots \cap H_{G_i, C_i}) \cap \mathbb{K}[x_n]\\
+	&= ((H_{G_i, C_1} \cap \cdots \cap H_{G_i, C_{i-1}}) \cap \mathbb{K}[x_n]) \cap (H_{G_i, C_i} \cap \mathbb{K}[x_n])\\
+	&= \langle x_n^n - 1 \rangle \cap \langle x_n^n - 1 \rangle\\
+	&= \langle x_n^n - 1 \rangle.
+}
+Thus, by the Elimination Theorem, we find that $x_n^n - 1$ is in the reduced Gr\"obner basis of $H_{G_i}$ and is the sole generator of its polynomials in $\mathbb{K}[x_n]$.
+
+\begin{lemma}
+	Let $G$ be a graph with $n$ vertices and one or more Hamiltonian cycles, and $k$ be a natural number (not including zero). Then we find, for each $i$ such that $1 \leq i \leq n$, that $\mathrm{LT}(g) = x_i^k$ for some $g$ in the reduced Gr\"obner basis of $H_G$.
+\end{lemma}
+
+\emph{Proof.} We know from the construction of $H_G$ that there is a polynomial with the leading term $x_i^n$ for all $1 \leq i \leq n$. From the algorithm for finding a reduced Gr\"obner basis, the only way to eliminate one of these terms is by adding polynomial $f$ where $\mathrm{LT}(f)$ divides $x_i^n$. But then $\mathrm{LT}(f) = x_i^k$.
+
+\begin{conjecture}
+	Let $G$ be a graph with $n$ vertices, and $k \geq 2$. There exists $g$ in the reduced Gr\"obner basis of $H_G$ such that $\mathrm{LT}(g) = x_i^k$ for some $i$ such that $1 \leq i < n$ if and only if $G$ has more than one Hamiltonian cycle.
+\end{conjecture}
+
+
+\end{document}

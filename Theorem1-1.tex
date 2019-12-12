@@ -1,0 +1,54 @@
+\documentclass[letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+
+\newtheorem*{theorem}{Theorem}
+
+\newcommand{\aln}[1]{\begin{align*} #1 \end{align*}} %fast align
+\newcommand{\fitp}[1]{\left( #1 \right)} %fit parentheses
+
+\title{Proof of Theorem 1.1 Part 1}
+\author{Max Comstock}
+\date{Summer 2014}
+
+\begin{document}
+
+\maketitle
+
+\begin{theorem}
+A simple graph $G$ with nodes $1, \ldots, n$ has a cycle of length $L$ if and only if the following zero-dimensional system of polynomial equations has a solution:
+\begin{gather}
+	\sum_{i=1}^n y_i = L.
+\end{gather}
+For every node $i = 1, \ldots, n$:
+\begin{gather}
+	y_i (y_i - 1) = 0, \qquad \prod_{s=1}^n (x_i - s) = 0,\\
+	y_i \prod_{j \in \mathrm{Adj}(i)} (x_i - y_j x_j - y_j) (x_i - y_j x_j - y_j(L-1)) = 0.
+\end{gather}
+Here $\mathrm{Adj}(j)$ denotes the set of nodes adjacent to node $i$.
+\end{theorem}
+
+\emph{Proof.} Suppose that graph $G$ has a cycle of length $L$. We can see from (2) that each $y_i$ will be either 0 or 1, and each $x_i$ will have a value between 1 and $n$. From (1), we see that we are allowed to have exactly $L$ number of $y_i$s with the value 1, each representing one node in the cycle (nodes outside the cycle will be zero). All that remains is to satisfy (3). This is clearly the case when $y_i = 0$. If the node $i$ is in the cycle, then some adjacent node must be the next node in the cycle. Set this node to be $j$. We can see that $x_i$ represents the position of the node in the cycle, so either $x_i = L$ and $x_j = 1$, satisfying the second parenthetical expression of (3), or $x_i < L$ and $x_j = x_i+1$, satisfying the first parenthetical expression of (3).
+
+Now suppose that the system of equations in the Theorem has a solution where $L$ number of $y_i$s are not zero. We will show that these $y_i$s form a cycle. Suppose that $i$ does not satisfy the equation
+\aln{
+	x_i - x_j + 1 = 0.
+}
+Then it must satisfy
+\aln{
+	x_i - x_j - (L-1) = 0.
+}
+This means that $x_i - L = x_j - 1$. Since $x_i$ and $x_j$ must satisfy (2), the only possibility is that $x_i = L$ and $x_j = 1$. Otherwise, $i$ and $j$ satisfy
+\aln{
+	x_i - x_j + 1 = 0,
+}
+or
+\aln{
+	x_j = x_i + 1.
+}
+Thus, each $y_i$ is numbered from 1 to $L$ by adjacency, where the $L$th node is adjacent to the first, creating a cycle.
+
+
+
+\end{document}

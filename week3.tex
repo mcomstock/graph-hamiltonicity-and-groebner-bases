@@ -1,0 +1,93 @@
+\documentclass{beamer}
+\usepackage{amsthm}
+\usepackage{amsmath,amssymb}
+\usepackage{verbatim}
+
+\newtheorem*{conj}{Conjecture}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{defin}{Definition}
+
+\newcommand{\aln}[1]{\begin{align*} #1 \end{align*}} % fast align
+
+\title{Week 3 Presentation}
+\author{Max Comstock}
+\date{Summer 2014}
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+\begin{frame}
+\frametitle{How to represent a primitive $n$th root of unity}
+\begin{defin}
+  An $n$th root of unity is \textbf{primitive} if it is not a $k$th root of unity for some smaller $k$:
+  \aln{
+    z^k \neq 1 \quad (k = 1, 2, \ldots, n-1).
+  }
+\end{defin}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Cyclotomic poynomial $\Phi_n$}
+\begin{defin}
+  The \textbf{$n$th cyclotomic polynomial} is the unique irreducible polynomial with integer coefficients whose roots are the $n$th primitive roots of unity.
+\end{defin}
+Examples:
+\aln{
+  \Phi_3(z) &= z^2 + z + 1\\
+  \Phi_4(z) &= z^2 + 1\\
+  \Phi_5(z) &= z^4 + z^3 + z^2 + z + 1\\
+  \Phi_6(z) &= z^2 - z + 1
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Using $\Phi_n$ to create a field with $n$th roots of unity}
+We will begin with the ring
+Our goal is to create the ring
+\aln{
+  \mathbb{K}[x_1, \ldots, x_n]
+}
+where $\mathbb{K}$ is a field containing the primitive $n$th roots of unity. We can create such a field as follows:
+\aln{
+  \mathbb{K} = \frac{\mathbb{Q}[z]}{\Phi_n(z)}.
+}
+Using the relationship
+\aln{
+  \left( \frac{\mathbb{Q}[z]}{\Phi_n(z)} \right)[x_1, \ldots, x_n] \cong \frac{\mathbb{Q}[x_1, \ldots, x_n, z]}{\Phi_n},
+}
+We can choose
+\aln{
+  \mathbb{K}[x_1, \ldots, x_n] = \frac{\mathbb{Q}[x_1, \ldots, x_n, z]}{\Phi_n(z)}.
+}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Implementation using Macaulay2}
+\begin{center}
+  \begin{verbatim}
+    R = QQ[x_1, x_2, x_3, x_4, x_5, x_6, z];
+    CYCLOTOMIC_POLY = z^2 - z + 1;
+    R = R/CYCLOTOMIC_POLY;
+    IDEAL_GEN = {x_1^6 - 1, x_2^6 - 1, x_3^6 - 1,
+             x_4^6 - 1, x_5^6 - 1, x_6^6 - 1,
+	     z*x_1 - x_2,
+	     z*x_2 - x_3,
+	     z*x_3 - x_4,
+	     z*x_4 - x_5,
+	     z*x_5 - x_6,
+	     z*x_6 - x_1};
+    idealOfGraph = ideal IDEAL_GEN;
+    graphBasis = flatten entries gens gb idealOfGraph;
+    print toString graphBasis;
+  \end{verbatim}
+\end{center}
+\end{frame}
+
+
+
+\end{document}

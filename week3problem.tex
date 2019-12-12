@@ -1,0 +1,45 @@
+\documentclass[letterpaper]{article}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\aln}[1]{\begin{align*} #1 \end{align*}} %fast align
+
+\begin{document}
+
+\title{Problems on S-Polynomials and Gr\"obner Bases}
+\author{Max Comstock}
+\date{June 12, 2014}
+\maketitle
+
+\section*{Problem}
+Consider the polynomial ring $R = \mathbb{C}[x_1,x_2,\ldots,x_n]$. Let $\prec$ be a monomial order in which $x_n \prec x_{n-1} \prec \cdots \prec x_2 \prec x_1$. Let $I \subseteq R$ be the ideal given by
+\aln{
+  I = (x_1^3 - 1, x_2^3 - 1, \ldots, x_n^3 - 1).
+}
+Determine, with proof, whether or not the set $\{x_1^3 - 1, x_2^3 - 1, \ldots, x_n^3 - 1\}$ is a Gr\"obner basis for $I$. (Hint: Compute the $S$-polynomials for every pair of polynomials in the set.)
+
+\section*{Solution}
+Let $G = \{x_1^3 - 1, x_2^3 - 1, \ldots, x_n^3 - 1\}$. Using Buchberger's Criterion, we can show that, for all pairs $i \neq j$, the remainder on division of $S(g_i, g_j)$ by $G$ is zero. Choose arbitrary $i$ and $j$ such that $i \neq j$, and $g_i, g_j \in G$. Suppose, without loss of generality, that $i < j$. Then we find
+\aln{
+  S(g_i, g_j) = \frac{x^\gamma}{x_i^3} g_i - \frac{x^\gamma}{x_j^3} g_j.
+}
+Note that $x^\gamma = x_i^3 x_j^3$. This means that the $S$-polynomial is
+\aln{
+  S(g_i, g_j) &= \frac{x_i^3 x_j^3}{x_i^3} g_i - \frac{x_i^3 x_j^3}{x_j^3} g_j\\
+  &= x_j^3 g_i - x_i^3 g_j\\
+  &= x_j^3 (x_i^3 - 1) - x_i^3 (x_j^3 - 1)\\
+  &= x_i^3 x_j^3 - x_j^3 - (x_i^3 x_j^3 - x_i^3)\\
+  &= x_i^3 - x_j^3.
+}
+From the division algoritm, we find
+\aln{
+  S(g_i, g_j) = x_i^3 - x_j^3 = (x_i^3 - 1) - (x_j^3 - 1) = g_i - g_j.
+}
+Similarly, for $S(g_j, g_i)$, we find
+\aln{
+  S(g_j, g_i) = x_j^3 - x_i^3 = (x_j^3 - 1) - (x_i^3 - 1) = g_j - g_i.
+}
+Thus, the remainder on the $S$-polynomial on division by $G$ is zero. Hence $G$ is a Gr\"obner basis for $I$.
+
+
+
+\end{document}

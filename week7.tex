@@ -1,0 +1,115 @@
+\documentclass{beamer}
+\usepackage{amsthm}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{prop}{Proposition}
+\newtheorem{defin}{Definition}
+\newtheorem{thm}{Theorem}
+
+\title{Week 7}
+\author{Max Comstock}
+\date{Summer 2014}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Recall: Encoding graphs as polynomials}
+\begin{prop}
+  Let $G = (V,A)$ be a simple directed graph on vertices $V = \{1, \ldots, n\}$. Assume that the characteristic of $\mathbb{K}$ is relatively prime to $n$ and that $z \in \mathbb{K}$ is a primitive $n$-th root of unity. Consider the following system in $\mathbb{K}[x_1, \ldots, x_n]$:
+  \begin{align*}
+    H_G = \{x_i^n - 1 = 0, \prod_{j \in \delta^+(i)} (z x_i - x_j) = 0 \, : \, i \in V\}
+  \end{align*}
+  Here, $\delta^+(i)$ denotes those vertices $j$ which are connected to $i$ by the arc going from $i$ to $j$ in $G$. The system $H$ has a solution over $\mathbb{K}$ if and only if $G$ has a Hamiltonian cycle.
+\end{prop}
+Source: ``Recognizing Graph Theoretic Properties with Polynomial Ideals'' by J.A. De Loera, C. Hillar, P.N. Malkin, and M. Omar.
+\end{frame}
+
+\begin{frame}
+\frametitle{Recall: Graphs with one Hamiltonian cycle}
+\begin{defin}
+  Let $z$ be a fixed primitive $k$-th root of unity. If $C$ is a directed cycle of length $k$ in a directed graph, with vertex set $\{v_1, \ldots, v_k\}$, the cycle encoding of $C$ is the following set of $k$ polynomials:
+  \begin{align*}
+    g_i = \left \{ \begin{matrix} x_{v_{k-i}} - z^{k-i} x_{v_k} & i = 1, \ldots, k-1\\ x_{v_k}^k - 1 & i = k \end{matrix} \right ..
+  \end{align*}
+\end{defin}
+Note: define $H_{G,C} = \langle g_1, \ldots, g_i \rangle$. The $g_i$'s form a reduced Gr\"obner basis (which must be unique) for $H_{G,C}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Goal for this week}
+My current goal is to prove the following conjecture:
+\begin{conjecture}
+	For a graph $G$ with $n$ vertices and one or more Hamiltonian cycles, $x_n^n - 1$ is in the reduced Gr\"obner basis of $H_G$.
+\end{conjecture}
+From the previous slide, this is true for graphs with a single Hamiltonian cycle.
+\end{frame}
+
+\begin{frame}
+\frametitle{Extending to Graphs with multiple Hamiltonian cycles}
+We will use the following theorem to relate the encoding of a single cycle to multiple cycles:
+\begin{thm}
+Let $G$ be a connected directed graph with $n$ vertices. Then,
+\begin{align*}
+	H_G = \bigcap_C H_{G,C},
+\end{align*}
+where $C$ ranges over all Hamiltonian cycles of the graph $G$.
+\end{thm}
+\end{frame}
+
+\begin{frame}
+\frametitle{More work to do}
+While this theorem reveals a potential strategy for proving the conjecture, computing the Gr\"obner basis of intersecting ideals is still very complicated.\\
+\vfill
+Can we reduce the problem further?
+\end{frame}
+
+\begin{frame}
+\frametitle{Elimination Theory}
+One way to reduce the scope of this problem is to examine an \emph{elimination ideal}, defined as follows:
+\begin{defin}
+Given $I = \langle f_1, \ldots, f_s \rangle \subseteq k[x_1, \ldots, x_n]$ the $\ell$-th \textbf{elimination ideal} $I_\ell$ is the ideal of $k[x_{\ell+1}, \ldots, x_n]$ defined by
+\begin{align*}
+	I_\ell = I \cap k[x_{\ell+1}, \ldots, x_n].
+\end{align*}
+\end{defin}
+We would like to show that $H_G \cap k[x_n] = \langle x_n^n - 1 \rangle$ for any graph $G$ with one or more Hamiltonian cycles.\\
+Can Gr\"obner bases help us do this?
+\end{frame}
+
+\begin{frame}
+\frametitle{Elimination Theory}
+Fortunately, they can. We can use the Elimination Theorem:
+\begin{thm}
+Let $I \subseteq k[x_1, \ldots, x_n]$ be an ideal and let $G$ be a Gr\"obner basis of $I$ with respect to lex order where $x_1 > x_2 > \cdots > x_n$. Then, for every $0 < \ell < n$, the set
+\begin{align*}
+	G_\ell = G \cap k[x_{\ell+1}, \ldots, x_n]
+\end{align*}
+is a Gr\"obner basis of the $\ell$-th elimination ideal $I_\ell$.
+\end{thm}
+Source: Cox, Little, O'Shea
+\end{frame}
+
+\begin{frame}
+\frametitle{Example with two Hamiltonian cycles}
+Let $G$ be a graph with $n$ vertices and two Hamiltonian cycles, represented by the cycle ideals $H_{G,C_1}$ and $H_{G,C_2}$. Then we find
+\begin{align*}
+	H_G \cap k[x_n] &= (H_{G,C_1} \cap H_{G,C_2}) \cap k[x_n]\\
+	&= (H_{G,C_1} \cap k[x_n]) \cap (H_{G,C_2} \cap k[x_n])\\
+	&= \langle x_n^n - 1 \rangle \cap \langle x_n^n - 1 \rangle\\
+	&= \langle x_n^n - 1 \rangle.
+\end{align*}
+Therefore, the polynomial $x_n^n - 1$ is the sole generator of the polynomials in $H_G$ that contain $x_n$ alone.
+\end{frame}
+
+
+
+
+
+
+\end{document}
